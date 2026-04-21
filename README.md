@@ -1,7 +1,7 @@
 # trading_application
 
 
-```markdown
+
 # 🛢️ Petrol Trading Backtesting Platform - Data Module
 
 [cite_start]This repository contains the **Data Module** for a comprehensive trading backtesting platform designed to evaluate investment strategies using technical indicators, Machine Learning (Random Forest/SVM), and NLP-based sentiment analysis[cite: 3, 4, 7].
@@ -76,6 +76,6 @@ python -c "import pandas as pd; print(pd.read_parquet('data_module/data/processe
 * [cite_start]**Transparency**: Clear separation between raw acquisition and processed outputs[cite: 105, 124].
 
 ---
-```
+
 
 
