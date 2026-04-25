@@ -1,6 +1,6 @@
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import pandas as pd
 import config  # Importing your central config
 from .base import BaseCollector
@@ -18,11 +18,14 @@ class EIAPriceCollector(BaseCollector):
 
     def fetch(self) -> pd.DataFrame:
         """Fetches and performs initial parsing of EIA data."""
+        start_date = (datetime.now() - timedelta(days=config.LOOKBACK_DAYS)).strftime("%Y-%m-%d")
         params = {
             "api_key": self.api_key,
             "frequency": config.DEFAULT_FREQUENCY,
             "data[0]": config.DEFAULT_DATA_COLUMN,
             "facets[series][]": [self.series_id],
+            "start": start_date,
+            "length": config.EIA_LIMIT,
             "sort[0][column]": "period",
             "sort[0][direction]": "desc"
         }
@@ -50,7 +53,8 @@ class EIAPriceCollector(BaseCollector):
             df = df.rename(columns={'period': 'date', 'value': 'price'})
             
             # Return raw data for the Processor layer to handle
-            return df[['date', 'price']]
+            df['date'] = pd.to_datetime(df['date'])
+            return df[['date', 'price']].sort_values('date')
 
         except requests.exceptions.RequestException as e:
             print(f"Network error fetching EIA data: {e}")

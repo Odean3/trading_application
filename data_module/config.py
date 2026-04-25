@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 
 # Load environment variables from .env
 load_dotenv()
@@ -30,6 +31,9 @@ ASSETS = {
 # --- Default Parameters ---
 DEFAULT_FREQUENCY = "daily"
 DEFAULT_DATA_COLUMN = "value"
+LOOKBACK_DAYS = 3*365  # Fetch data for the past year by default
+# EIA v2 defaults to 1,000 rows. We increase this to ensure we get 3 years in one go.
+EIA_LIMIT = 5000
 
 # --- Storage Settings ---
 # Using Parquet for performance as per technical constraints 
